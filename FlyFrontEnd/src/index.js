@@ -4,6 +4,7 @@ const BookingForm = document.querySelector('.container')
 const checkBookings= document.querySelector('.bookings')
  let addBooking = false
  let check = false
+ let test;
 
 const hotelList= document.querySelector(`#hotel-list`);
 const bookingsList = document.querySelector(`#bookings-list`)
