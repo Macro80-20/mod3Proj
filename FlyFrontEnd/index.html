@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Book A Hotel</title>
+
+    <link rel="stylesheet" href="index.css">
+  </head>
+  <body>
+    
+    <div id='hotel-header'>
+      <img src="https://www.famouslogos.us/images/hotel-logos/hotel-logo.png" alt="hotel-header">
+    </div>
+
+    <div class="container">
+      <form id="add-a-booking" >
+        <h3>Create a booking</h3>
+
+        <select class="input-text"name="hotel">
+          <option value="" disabled selected hidden >Hotel Name</option>
+          <option value="Cotton-House-Hotel">Cotton House Hotel</option>
+          <option value="Ett-Hem">Ett Hem</option>
+          <option value="Hotel-du-Cap-Eden-Roc">Hotel du cap-eden-roc</option>
+          <option value="Four-Seasons-Hotel-Gresham-Palace">Four Seasons Hotel Gresham palace</option>
+        </select>
+        <br>
+        <input type="text" name="nights" value="" placeholder="Number of Nights " class="input-text">
+        <br>
+        <input type="submit" name="submit" value="Book" class="submit">
+      </form>
+    </div>
+    <div class="bookings">
+       <h3>Your BOOKINGS</h3>
+        <div id="bookings-list">
+          <!-- <div class="booking"> when i populate my dom when i create a div with this class and add in the innerText
+
+           </div> -->
+         </div>
+  
+        
+      </div>
+    <p style='text-align:center' >Relax and Enjoy <button id='new-booking'>Book your Hotel</button></p>
+    <p style='text-align:center' >Review and rate <button id='view-bookings'>View your bookings</button></p>
+
+    <div id="hotel-list">
+    </div>
+    
+
+    <script type="text/javascript" src="src/api.js"></script>
+    <script type="text/javascript" src="src/index.js"></script>
+  </body>
+
+</html>
