@@ -16,15 +16,16 @@
       <form id="add-a-booking" >
         <h3>Create a booking</h3>
 
-        <select class="input-text"name="hotel">
+        <!-- <select class="input-text"name="hotel">
           <option value="" disabled selected hidden >Hotel Name</option>
           <option value="Cotton-House-Hotel">Cotton House Hotel</option>
           <option value="Ett-Hem">Ett Hem</option>
           <option value="Hotel-du-Cap-Eden-Roc">Hotel du cap-eden-roc</option>
           <option value="Four-Seasons-Hotel-Gresham-Palace">Four Seasons Hotel Gresham palace</option>
-        </select>
+        </select> -->
         <br>
-        <input type="text" name="nights" value="" placeholder="Number of Nights " class="input-text">
+        <input type="hidden" id="specific-hotel" name="hotel-name" value="">
+        <input type="text" name="nights" value="" placeholder="Number of Nights" class="input-text">
         <br>
         <input type="submit" name="submit" value="Book" class="submit">
       </form>
@@ -39,7 +40,7 @@
   
         
       </div>
-    <p style='text-align:center' >Relax and Enjoy <button id='new-booking'>Book your Hotel</button></p>
+    
     <p style='text-align:center' >Review and rate <button id='view-bookings'>View your bookings</button></p>
 
     <div id="hotel-list">
