@@ -1,15 +1,14 @@
-const addBtn = document.querySelector('#new-booking')
+// const addBtn = document.querySelector('#new-booking')
 const checkBtn = document.querySelector("#view-bookings")
 const BookingForm = document.querySelector('.container')
 const checkBookings= document.querySelector('.bookings')
  let addBooking = false
  let check = false
- let test;
 
 const hotelList= document.querySelector(`#hotel-list`);
 const bookingsList = document.querySelector(`#bookings-list`)
 const bookingFormEl = document.querySelector(`#add-a-booking`)
-
+const hiddennField = document.querySelector("#specific-hotel")
 document.addEventListener("DOMContentLoaded", () => {
   addHotels(hotels)
   //! a)
@@ -22,18 +21,18 @@ document.addEventListener("DOMContentLoaded", () => {
 //! hide & seek with the form
 //! Slide toggle 2 individual <divs> with 2 different buttons
 //! refacotring i would not need the toggle , i got a way to check if someone is on or off by checking display
-addBtn.addEventListener("click", () =>{
-  addBooking = !addBooking
+// addBtn.addEventListener("click", () =>{
+//   addBooking = !addBooking
 
-  console.log(addBooking)
-  if(addBooking || checkBookings.style.display == "block"){
-    checkBookings.style.display = "none"  
-     check = false 
-    BookingForm.style.display = "block"
-  }else {
-  BookingForm.style.display = 'none'
-  }
-  })
+//   console.log(addBooking)
+//   if(addBooking || checkBookings.style.display == "block"){
+//     checkBookings.style.display = "none"  
+//      check = false 
+//     BookingForm.style.display = "block"
+//   }else {
+//   BookingForm.style.display = 'none'
+//   }
+//   })
   
   checkBtn.addEventListener("click", () => {
   check = !check
@@ -62,13 +61,43 @@ addHotel = (hotel) => {
     <h2 class="hotel_name"> ${hotel.name} </h2>
     <img class="hotel_image"src="${hotel.url}"/>
     <button class="stars" type="button" disabled > ${hotel.stars} Stars *** </button>
+    <p style='text-align:center'> Relax and Enjoy <button class='book-hotel' id='${hotel.name}'>Book your Hotel</button></p>
     <p> From ${hotel.price} per night </p>
     <p> <strong>Location:</strong>${hotel.location}</p>
     `
+    const addBtn = hotelCard.querySelector('.book-hotel')
+
+    addBtn.addEventListener("click", (event) =>{
+  addBooking = !addBooking
+
+  console.log(addBooking)
+  if(addBooking || checkBookings.style.display == "block"){
+    checkBookings.style.display = "none"  
+     check = false 
+    BookingForm.style.display = "block"
+  }else {
+  BookingForm.style.display = 'none'
+  }
+  hiddennField.value = event.target.id
+  })
+
     // wanted to disable the stars buttons for the hotels list
   //  hotelCard.documentquerySelector(".stars").disabled = true
   hotelList.append(hotelCard)
 }
+
+// addBtn.addEventListener("click", () =>{
+//   addBooking = !addBooking
+
+//   console.log(addBooking)
+//   if(addBooking || checkBookings.style.display == "block"){
+//     checkBookings.style.display = "none"  
+//      check = false 
+//     BookingForm.style.display = "block"
+//   }else {
+//   BookingForm.style.display = 'none'
+//   }
+//   })
 
 //the challenge is when they send the form
 // i want to create a booking under user 1, 
@@ -82,10 +111,12 @@ addHotel = (hotel) => {
 //* when we make booking i update the server 
 bookingFormEl.addEventListener("submit",e => {
   e.preventDefault()
-let nameOfHotel = bookingFormEl.hotel.value.replace(/-/g, ' ')
-let numOfNights = parseInt(bookingFormEl.nights.value,10)
-  hotel = hotels.find( x => x.name == nameOfHotel);
-  hotel["nights"] = numOfNights 
+let nameOfHotel = event.target.children["hotel-name"].value
+let numOfNights = parseInt(event.target.nights.value,10)
+//  debugger   
+hotel = hotels.find( hotel => hotel.name == nameOfHotel);
+//in the db we need params[:nights] so we add nights to our hotel object from userInput
+hotel["nights"] = numOfNights 
 createHotelBooking(USER_ID,hotel) 
 BookingForm.style.display = "none"
 addBooking = false 
@@ -128,7 +159,7 @@ let renderBooking = booking =>{
     <form id="rate-your-hotel" action="#" method="post">
     <input type="submit" name="rate" value="rate" class="submit">
     <select class="input-rating"name="rating">
-          <option value="5" >5 ***</option>
+          <option value="5">5 ***</option>
           <option value="4">4***</option>
           <option value="3">3***</option>
           <option value="2">2***</option>
@@ -143,11 +174,15 @@ let renderBooking = booking =>{
    `
    const rateFormEl = bookingInfo.querySelector(`#rate-your-hotel`)
    const hotelRating = bookingInfo.querySelector(`.current-rating`)
+
+
     rateFormEl.addEventListener("submit", e => {
       e.preventDefault()
       //* two solutions  1)
+      //client side
     booking.stars = parseInt(rateFormEl.rating.value,10)
     hotelRating.innerText = `Current rating: ${booking.stars}`
+    //server side
     updateStars(USER_ID,booking,booking.stars)
 
     //*  2) this piece of code creates duplciat which is why inbetween i cleared innerHTML 
@@ -162,6 +197,10 @@ let renderBooking = booking =>{
 
    const deleteBtn = bookingInfo.querySelector('#delete')
     deleteBtn.addEventListener("click",() =>
+    //clientside
+     
+
+    //serverside
     deleteHotel(booking.id)
     )
    

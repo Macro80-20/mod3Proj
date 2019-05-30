@@ -1,6 +1,7 @@
 const hotels =[
 //* this would be my get response from a hotel api  
   {
+    id: 1,
     name: "Cotton House Hotel",
     url: "https://www.telegraph.co.uk/content/dam/Travel/hotels/europe/spain/barcelona/cotton-house-hotel-barcelona-xlarge.jpg",
     stars: 5,
@@ -8,6 +9,7 @@ const hotels =[
     location: "Barcelona, Catalonia"
   },
   {
+    id: 2,
     name: "Ett Hem",
     url: "https://www.telegraph.co.uk/content/dam/Travel/hotels/scandanavia/sweden/ett-hem-stockholm-garden-seating-xlarge.jpg",
     stars: 4,
@@ -15,6 +17,7 @@ const hotels =[
     location: "Stockholm, Sweden"
   },
   {
+    id: 3,
     name: "Hotel du Cap Eden Roc",
     url: "https://www.telegraph.co.uk/content/dam/Travel/hotels/articles/fifty-best-hotels/hotel-cap-eden-roc-xlarge.jpg",
     stars: 5,
@@ -22,6 +25,7 @@ const hotels =[
     location: "Cap d'Antibes, Côte d'Azur, France"
   },
   {
+    id: 4,
     name: "Four Seasons Hotel Gresham Palace",
     url: "https://www.telegraph.co.uk/content/dam/Travel/hotels/articles/fifty-best-hotels/four-seasons-gresham-palace-xlarge.jpg",
     stars: 3,
@@ -31,7 +35,7 @@ const hotels =[
 ]   
    const USER_ID = 1    
    const HOTEL_URL = 'http://localhost:3000/hotels'
-   const USERS_URL = 'http://localhost:3000/users/1'
+   const USERS_URL = 'http://localhost:3000/users'
     //*This is my fetch to user
     getUserHotelBookings = () =>
     fetch(USERS_URL + `/${USER_ID}`).then(users=>users.json())
