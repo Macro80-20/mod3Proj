@@ -1,9 +1,9 @@
-// const addBtn = document.querySelector('#new-booking')
-const checkBtn = document.querySelector("#view-bookings")
+// const bookHotelB = document.querySelector('#new-booking')
+const viewBookingsBtn = document.querySelector("#view-bookings")
 const BookingForm = document.querySelector('.container')
 const checkBookings= document.querySelector('.bookings')
  let addBooking = false
- let check = false
+ let bookingToggle = false
 
 const hotelList= document.querySelector(`#hotel-list`);
 const bookingsList = document.querySelector(`#bookings-list`)
@@ -18,26 +18,11 @@ document.addEventListener("DOMContentLoaded", () => {
   
 })
 
-//! hide & seek with the form
-//! Slide toggle 2 individual <divs> with 2 different buttons
-//! refacotring i would not need the toggle , i got a way to check if someone is on or off by checking display
-// addBtn.addEventListener("click", () =>{
-//   addBooking = !addBooking
-
-//   console.log(addBooking)
-//   if(addBooking || checkBookings.style.display == "block"){
-//     checkBookings.style.display = "none"  
-//      check = false 
-//     BookingForm.style.display = "block"
-//   }else {
-//   BookingForm.style.display = 'none'
-//   }
-//   })
   
-  checkBtn.addEventListener("click", () => {
-  check = !check
-  console.log(check)
-  if(check || BookingForm.style.display == "block"){
+  viewBookingsBtn.addEventListener("click", () => {
+    bookingToggle = !bookingToggle
+  console.log(bookingToggle)
+  if(bookingToggle || BookingForm.style.display == "block"){
     BookingForm.style.display = "none"
     addBooking = false 
     checkBookings.style.display = "block"
@@ -49,12 +34,36 @@ document.addEventListener("DOMContentLoaded", () => {
 // // })
 
 
+//* toggler 
+const seeFlightDetails = (event) => {
+  let travelItenaryCard = event.target.parentElement.parentElement.firstElementChild
+  let hotelBookedCard = event.target.parentElement
+  hotelBookedCard.style.display = "none"
+if(hotelBookedCard.style.display == "none") {
+  travelItenaryCard.style.display = "block"
+}else {
+  travelItenaryCard.style.display = "none"
+}
+  }
+//* toggler 
+const goBack = (event) => {
+  let travelItenaryCard = event.target.parentElement
+  let hotelBookedCard = event.target.parentElement.nextSibling
+      travelItenaryCard.style.display = "none"
+   if(travelItenaryCard.style.display == "none"){
+     hotelBookedCard.style.display = "block"
+    } else{
+      hotelBookedCard.style.display = "none"
+    }
+  }
 
-addHotels = (hotels) => 
-  hotels.forEach( hotel => addHotel(hotel))
+const addHotels = (hotels) => 
+  hotels.forEach( hotel => renderHotel(hotel))
   //* taking apart the hash of hotels and invoking the method to populate my dom
   // with one hotel at a time 
-addHotel = (hotel) => {
+
+
+const renderHotel = (hotel) => {
   let hotelCard = document.createElement(`div`)
   hotelCard.className ="card"
   hotelCard.innerHTML =`
@@ -65,15 +74,13 @@ addHotel = (hotel) => {
     <p> From ${hotel.price} per night </p>
     <p> <strong>Location:</strong>${hotel.location}</p>
     `
-    const addBtn = hotelCard.querySelector('.book-hotel')
+    const bookHotelBtn = hotelCard.querySelector('.book-hotel')
 
-    addBtn.addEventListener("click", (event) =>{
+    bookHotelBtn.addEventListener("click", (event) =>{
   addBooking = !addBooking
-
-  console.log(addBooking)
   if(addBooking || checkBookings.style.display == "block"){
     checkBookings.style.display = "none"  
-     check = false 
+    bookingToggle = false 
     BookingForm.style.display = "block"
   }else {
   BookingForm.style.display = 'none'
@@ -86,25 +93,6 @@ addHotel = (hotel) => {
   hotelList.append(hotelCard)
 }
 
-// addBtn.addEventListener("click", () =>{
-//   addBooking = !addBooking
-
-//   console.log(addBooking)
-//   if(addBooking || checkBookings.style.display == "block"){
-//     checkBookings.style.display = "none"  
-//      check = false 
-//     BookingForm.style.display = "block"
-//   }else {
-//   BookingForm.style.display = 'none'
-//   }
-//   })
-
-//the challenge is when they send the form
-// i want to create a booking under user 1, 
-// in the post request i require a bunch of params 
-// the form only requires 2 inputs , so how do i not hard code the rest of object info
-  
-// solution 1: 
 
 
 
@@ -121,7 +109,7 @@ createHotelBooking(USER_ID,hotel)
 BookingForm.style.display = "none"
 addBooking = false 
 checkBookings.style.display = "block"
-check = true 
+bookingToggle = true 
 e.target.reset()
 })
 
@@ -129,32 +117,36 @@ e.target.reset()
 
 
 
-//* i want the user to see a list of their previous booked hotels 
-
-
-//function that makes fetch request to user is in my api.js file 
-//! Two ways  then i invoke it in the DomEventlistiner
-//! A)
-// let addBookings = (bookings) => {
-// bookings.hotels.forEach(booking => renderBooking(booking))
-// }
-//!B)
+//* i want the user to see a list of their previo
 let addBookings = () => {
-  getUserHotelBookings()
-  .then(resp => resp.hotels.forEach(booking => renderBooking(booking)))
+  // getUserHotelBookings()
+  // .then(resp => resp.hotels.forEach(booking => renderBooking(booking)))
+  bookingsApi.forEach(booking => renderBooking(booking))
 }
 
 
 
 //function that renders the users hotels  and appends to checkboooings div
 let renderBooking = booking =>{
-  let bookingInfo = document.createElement('div')
-  let formEl = document.querySelector(`#rate-your-hotel`)
-  bookingInfo.className = "booking"
-  bookingInfo.innerHTML =`
-    <h3 class="hotel_name" > ${booking.name} </h3>
-    <img class="hotel_image"src="${booking.url}"/>
-    <p class="current-rating"> Current rating: ${booking.stars} </p>
+  const bookingContainer = document.createElement('div')
+  bookingContainer.id = booking.id
+  bookingContainer.name = booking.user.first_name
+  // const hotelBookedCard = document.createElement('div')
+  // const travelItenaryCard = document.createElement('div')
+  // travelItenaryCard
+  bookingContainer.innerHTML = `
+  <div id="${booking.flight.id} class="itenary" display="none">
+    <p>To ${booking.flight.to} </p>
+    <p> From ${booking.flight.from} </p>
+    <p>departure: ${booking.flight.departure}</p>
+    <p>arrival: ${booking.flight.arrival}</p>
+    <p>price: ${booking.flight.price}</p>
+    <button onclick="goBack(event)" id="goback"> Go back  </button> 
+  </div>
+  <div id="${booking.hotel.id} class="booking">
+    <h3 class="hotel_name" > ${booking.hotel.name} </h3>
+    <img class="hotel_image"src="${booking.hotel.url}"/>
+    <p class="current-rating"> Current rating: ${booking.hotel.stars} </p>
     <p style='text-align:center'> Rate your hotel
     <form id="rate-your-hotel" action="#" method="post">
     <input type="submit" name="rate" value="rate" class="submit">
@@ -165,88 +157,52 @@ let renderBooking = booking =>{
           <option value="2">2***</option>
           <option value="1">1***</option>
         </select>
+
       </form>
-    </p>
+
     <button class ="review"> Leave a Review! </button> 
     <p> <strong>Nights Stayed:</strong>${booking.nights}</p>
-   <p> <strong>Location:</strong>${booking.location}</p>
-   <button class ="review" id="delete"> delete </button> 
-   `
-   const rateFormEl = bookingInfo.querySelector(`#rate-your-hotel`)
-   const hotelRating = bookingInfo.querySelector(`.current-rating`)
+  <p> <strong>Location:</strong>${booking.location}</p>
+  <button class ="review" id="delete"> delete </button> 
+  <button onclick = "seeFlightDetails(event)" class="go-to-iternary"> Check flight details</button>
+ </div>
+ `
+  
+   
+  //  const starRatingFormBtn = hotelBookedCard.querySelector(`#rate-your-hotel`)
+  //  const hotelRating = hotelBookedCard.querySelector(`.current-rating`)
+ 
 
+  //   starRatingFormBtn.addEventListener("submit", e => {
+  //     e.preventDefault()
+  //     //* two solutions  1)
+  //     //client side
+  //   booking.stars = parseInt(starRatingFormBtn.rating.value,10)
+  //   hotelRating.innerText = `Current rating: ${booking.stars}`
+  //   //server side
+  //   updateStars(USER_ID,booking,booking.stars)
 
-    rateFormEl.addEventListener("submit", e => {
-      e.preventDefault()
-      //* two solutions  1)
-      //client side
-    booking.stars = parseInt(rateFormEl.rating.value,10)
-    hotelRating.innerText = `Current rating: ${booking.stars}`
-    //server side
-    updateStars(USER_ID,booking,booking.stars)
-
-    //*  2) this piece of code creates duplciat which is why inbetween i cleared innerHTML 
-            // stars = parseInt(rateFormEl.rating.value,10)
-            // updateStars(USER_ID,booking,stars)
-            // .then(resp => {
-            // bookingsList.innerHTML =''
-             // resp.hotels.forEach(booking => renderBooking(booking))
-      // })
+  //   //*  2) this piece of code creates duplciat which is why inbetween i cleared innerHTML 
+  //           // stars = parseInt(rateFormEl.rating.value,10)
+  //           // updateStars(USER_ID,booking,stars)
+  //           // .then(resp => {
+  //           // bookingsList.innerHTML =''
+  //            // resp.hotels.forEach(booking => renderBooking(booking))
+  //     // })
     
-    })
-
-   const deleteBtn = bookingInfo.querySelector('#delete')
-    deleteBtn.addEventListener("click",() =>
-    //clientside
+  //   })
+ //todo fix the way we select our button 
+  //  const deleteBtn = hotelBookedCard.querySelector('#delete')
+  //   deleteBtn.addEventListener("click",() =>
+  //   //clientside
      
 
-    //serverside
-    deleteHotel(booking.id)
-    )
-   
-
-    bookingsList.append(bookingInfo)
-}
-
-
-
-
-
-
-
-
-
-const resp = {
-"id": 1,
-"first_name": "Dr",
-"last_name": "No",
-"nationality": "british",
-"hotels": [
-{
-"id": 1,
-"name": "La Bastide de Gordes",
-"stars": 3,
-"location": "Gordes, Provence, France",
-"url": "https://www.telegraph.co.uk/content/dam/Travel/hotels/europe/france/provence/Bastide-de-Gordes-Provence-summary-large.jpg",
-"nights": 3
-},
-{
-"id": 2,
-"name": "Belmond Hotel Splendido",
-"stars": 3,
-"location": "Portofino, Liguria, Italy",
-"url": "https://www.telegraph.co.uk/content/dam/Travel/hotels/europe/italy/liguria/belmond-hotel-splendido-restaurant-large.jpg",
-"nights": 5
-},
-{
-"id": 3,
-"name": "Four Seasons Hotel Moscow",
-"stars": 4,
-"location": "beach",
-"url": "https://www.telegraph.co.uk/content/dam/Travel/Destinations/Europe/Russia/Moscow/four-seasons-moscow-p-large.jpg",
-"nights": 9
-}
-]
+  //   //serverside
+  //   deleteHotel(booking.id)
+  //   )
+    bookingsList.append(bookingContainer)
+    // bookingsList.append(travelItenaryCard)
+    // bookingsList.append(hotelBookedCard)
 }
 
 
@@ -263,47 +219,55 @@ const resp = {
 
 
 
-// hotel1.className = "card"
-// hotel1.id = "fer"
-// hotel1.innerHTML =`
-// <h2 class="hotel_name"> Cotton House Hotel </h2>
-// <img class="hotel_image"src="https://www.telegraph.co.uk/content/dam/Travel/hotels/europe/spain/barcelona/cotton-house-hotel-barcelona-xlarge.jpg"/>
-// <button class="stars"> 5 Stars *** </button>
-// <p> <strong>Location:</strong> Barcelona, Catalonia, </p>
-// `
-
-// const hotel2 = document.createElement(`div`)
-// hotel2.className = "card"
-// hotel2.innerHTML =`
-// <h2 class="hotel_name"> Ett Hem </h2>
-// <img class="hotel_image"src="https://www.telegraph.co.uk/content/dam/Travel/hotels/scandanavia/sweden/ett-hem-stockholm-garden-seating-xlarge.jpg"/>
-// <button class="stars"> 4 Stars *** </button>
-// <p> <strong>Location:</strong> Stockholm, Sweden </p>
-// `
-
-// const hotel3 = document.createElement(`div`)
-// hotel3.className = "card"
-// hotel3.innerHTML =`
-// <h2 class="hotel_name"> Hotel du Cap-Eden-Roc</h2>
-// <img class="hotel_image"src="https://www.telegraph.co.uk/content/dam/Travel/hotels/articles/fifty-best-hotels/hotel-cap-eden-roc-xlarge.jpg"/>
-// <button class="stars"> 5 Stars *** </button>
-// <p> <strong>Location:</strong> Cap d'Antibes, Côte d'Azur, France </p>
-// `
-// const hotel4 = document.createElement(`div`)
-// hotel4.className = "card"
-// hotel4.innerHTML =`
-// <h2 class="hotel_name"> Four Seasons Hotel Gresham Palace</h2>
-// <img class="hotel_image"src="https://www.telegraph.co.uk/content/dam/Travel/hotels/articles/fifty-best-hotels/four-seasons-gresham-palace-xlarge.jpg"/>
-// <button class="stars"> 3 Stars *** </button>
-// <p> <strong>Location:</strong> Budapest, Hungary
-// </p>
-// `
 
 
-// hotelList.append(hotel1);
-// hotelList.append(hotel2);
-// hotelList.append(hotel3);
-// hotelList.append(hotel4);
+
+
+
+
+
+
+// BEFORE WE WRAPPED OUR iternary and hotel in a container 
+// travelItenaryCard.id = booking.flight.id
+// travelItenaryCard.className = "itenary"
+// travelItenaryCard.style.display = "none"
+// travelItenaryCard.innerHTML= `
+// <p>To ${booking.flight.to} </p>
+// <p> From ${booking.flight.from} </p>
+// <p>departure: ${booking.flight.departure}</p>
+// <p>arrival: ${booking.flight.arrival}</p>
+// <p>price: ${booking.flight.price}</p>
+// <button onclick="goBack(event)" id="goback"> Go back  </button> 
+// `
+// hotelBookedCard.id = booking.hotel.id
+// hotelBookedCard.className = "booking"
+// hotelBookedCard.innerHTML =`
+//   <h3 class="hotel_name" > ${booking.hotel.name} </h3>
+//   <img class="hotel_image"src="${booking.hotel.url}"/>
+//   <p class="current-rating"> Current rating: ${booking.hotel.stars} </p>
+//   <p style='text-align:center'> Rate your hotel
+//   <form id="rate-your-hotel" action="#" method="post">
+//   <input type="submit" name="rate" value="rate" class="submit">
+//   <select class="input-rating"name="rating">
+//         <option value="5">5 ***</option>
+//         <option value="4">4***</option>
+//         <option value="3">3***</option>
+//         <option value="2">2***</option>
+//         <option value="1">1***</option>
+//       </select>
+
+//     </form>
+
+//   <button class ="review"> Leave a Review! </button> 
+//   <p> <strong>Nights Stayed:</strong>${booking.nights}</p>
+//  <p> <strong>Location:</strong>${booking.location}</p>
+//  <button class ="review" id="delete"> delete </button> 
+//  <button onclick = "seeFlightDetails(event)" class="go-to-iternary"> Check flight details</button>
+//  `
+
+
+
+
 
 
 

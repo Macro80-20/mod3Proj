@@ -2,7 +2,7 @@ class UsersController < ApplicationController
 
     def show
      @user= User.find_by(id: params[:id])
-   #   byebug
+    # byebug
      if @user
         render json: @user
       else 
@@ -24,6 +24,11 @@ class UsersController < ApplicationController
             render json:{error: "unable to update ratings"}, status: 400
           end
    end 
+
+
+   
+
+
 
 
 

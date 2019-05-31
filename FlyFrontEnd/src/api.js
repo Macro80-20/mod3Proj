@@ -1,3 +1,45 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const hotels =[
 //* this would be my get response from a hotel api  
   {
@@ -32,10 +74,16 @@ const hotels =[
     price: "£360",
     location: "Budapest, Hungary"
   }
-]   
+]
+
+
+
+
+
    const USER_ID = 1    
    const HOTEL_URL = 'http://localhost:3000/hotels'
    const USERS_URL = 'http://localhost:3000/users'
+   const FLIGHTS_URL = 'http://localhost:3000/flights'
     //*This is my fetch to user
     getUserHotelBookings = () =>
     fetch(USERS_URL + `/${USER_ID}`).then(users=>users.json())
@@ -59,6 +107,21 @@ const hotels =[
        })
      }).then(resp => resp.json())
    }
+
+  //  const createBooking = (id, ) => {
+  //    fetch( , {
+  //     method: 'POST',
+  //     headers: {
+  //       'Accept': 'application/json',
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify({
+  //       user_id: id,
+  //       to: ,
+  //       from: ,
+  //     })
+  //    })
+  //  }
    
    //*update hotel star rating 
    const updateStars = (id,hotel,stars) => 
@@ -84,3 +147,40 @@ const hotels =[
         })
         .then(resp => resp.json())
  }
+
+
+ const fetchFlights = () => 
+ fetch(FLIGHTS_URL).then(resp => resp.json())
+
+ const getBookings = () =>
+ fetch(BOOKINGS_URL).then(resp => resp.json())
+
+
+ const bookingsApi = [
+  {
+  "id": 1,
+  "review": "Clean Hotel, No delays",
+  "user": {
+  "id": 1,
+  "first_name": "Dr",
+  "last_name": "No",
+  "nationality": "british",
+  },
+  "hotel": {
+  "id": 1,
+  "name": "La Bastide de Gordes",
+  "nights": 3,
+  "stars": 3,
+  "location": "Gordes, Provence, France",
+  "url": "https://www.telegraph.co.uk/content/dam/Travel/hotels/europe/france/provence/Bastide-de-Gordes-Provence-summary-large.jpg",
+  },
+  "flight": {
+  "id": 1,
+  "to": "Marseille Airport",
+  "from": "London Heathrow",
+  "departure": "2019-05-30T00:20:19.500Z",
+  "arrival": "2019-05-30T00:20:19.500Z",
+  "price": "£180"
+  }
+  }
+  ]

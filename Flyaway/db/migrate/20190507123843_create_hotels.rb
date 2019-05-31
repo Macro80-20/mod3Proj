@@ -6,8 +6,6 @@ class CreateHotels < ActiveRecord::Migration[5.2]
       t.integer :stars
       t.string :location
       t.string :url
-      t.belongs_to :user, foreign_key: true
-
       t.timestamps
     end
   end
