@@ -1,54 +1,12 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const hotels =[
 //* this would be my get response from a hotel api  
   {
     id: 1,
-    name: "Cotton House Hotel",
-    url: "https://www.telegraph.co.uk/content/dam/Travel/hotels/europe/spain/barcelona/cotton-house-hotel-barcelona-xlarge.jpg",
+    name: "Guatemala",
+    url: "https://www.avianca.com/content/dam/avianca_new/destinos/gua/gt_gua_los_colores_de_guatemala.jpg",
     stars: 5,
-    price: "£270",
-    location: "Barcelona, Catalonia"
+    price: "100 Quatzalez",
+    location: "Tical, Guate"
   },
   {
     id: 2,
@@ -75,10 +33,6 @@ const hotels =[
     location: "Budapest, Hungary"
   }
 ]
-
-
-
-
 
    const USER_ID = 1    
    const HOTEL_URL = 'http://localhost:3000/hotels'
@@ -107,21 +61,6 @@ const hotels =[
        })
      }).then(resp => resp.json())
    }
-
-  //  const createBooking = (id, ) => {
-  //    fetch( , {
-  //     method: 'POST',
-  //     headers: {
-  //       'Accept': 'application/json',
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify({
-  //       user_id: id,
-  //       to: ,
-  //       from: ,
-  //     })
-  //    })
-  //  }
    
    //*update hotel star rating 
    const updateStars = (id,hotel,stars) => 
